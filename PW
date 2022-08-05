@@ -1,0 +1,30 @@
+Key(j + KeyOffset) = (Current \ 24)
+Current=Current Mod 24
+j = j -1
+Loop While j >= 0
+i = i -1
+KeyOutput = Mid(Maps,Current+ 1, 1) & KeyOutput
+Last = Current
+Loop While i >= 0
+
+If (isWin8 = 1) Then
+keypart1 = Mid(KeyOutput, 2, Last)
+insert = "N"
+KeyOutput = Replace(KeyOutput, keypart1, keypart1 & insert, 2, 1, 0)
+If Last = 0 Then KeyOutput = insert & KeyOutput
+End If
+ConvertToKey = Mid(KeyOutput, 1, 5) & "-" & Mid(KeyOutput, 6, 5) & "-" & Mid(KeyOutput, 11, 5) & "-" & Mid(KeyOutput, 16, 5) & "-" & Mid(KeyOutput, 21, 5)
+End Function
+'Save data to a file
+Function Save(Data)
+Dim fso, fName, txt,objshell,UserName
+Set objshell = CreateObject("wscript.shell")
+'Get current user name
+UserName = objshell.ExpandEnvironmentStrings("%UserName%")
+'Create a text file on desktop
+fName = "C:\Users\" & UserName & "\Desktop\WindowsKeyInfo.txt"
+Set fso = CreateObject("Scripting.FileSystemObject")
+Set txt = fso.CreateTextFile(fName)
+txt.Writeline Data
+txt.Close
+End Function
